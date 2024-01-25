@@ -23,9 +23,9 @@ export function CreatePost() {
     },
   });
 
-  const createGenap = api.post.create.useMutation({
+  const createPrima = api.post.create.useMutation({
     onSuccess: () => {
-      router.push('/genap');
+      router.push('/prima');
       router.refresh();
     },
   });
@@ -66,13 +66,13 @@ export function CreatePost() {
       <button
         type="submit"
         className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-        disabled={createGenap.isLoading}
+        disabled={createPrima.isLoading}
         onClick={(e) => {
           e.preventDefault();
-          createGenap.mutate({ name: Number(name) });
+          createPrima.mutate({ name: Number(name) });
         }}
       >
-        Generate Angka Genap
+        Generate Angka Prima
       </button>
     </form>
   );
