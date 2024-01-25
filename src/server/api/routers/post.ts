@@ -59,14 +59,23 @@ export const postRouter = createTRPCRouter({
     }
   }),
 
-  getGenap: publicProcedure.query(async ({ ctx }) => {
+  getPrima: publicProcedure.query(async ({ ctx }) => {
     const data = await ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
     });
     const maxNumber = Number(data?.name);
     const arr = []
-    for (let i = 2; i <= maxNumber; i += 2) {
-      arr.push(i)
+    for (let i = 2; i <= maxNumber; i++) {
+      let isPrime = true;
+      for (let j = 2; j < i; j++) {
+        if (i % j === 0) {
+          isPrime = false;
+          break;
+        }
+      }
+      if (isPrime) {
+        arr.push(i);
+      }
     }
     return {
       data: maxNumber,

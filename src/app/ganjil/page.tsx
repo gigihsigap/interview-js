@@ -9,7 +9,7 @@ export default async function Ganjil() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center from-[#2e026d] to-[#15162c] text-white">
-      <span className="font-semibold">Ganjil: {data}</span>
+      <span className="font-semibold">Angka ganjil: {data}</span>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <CreatePost />
         
