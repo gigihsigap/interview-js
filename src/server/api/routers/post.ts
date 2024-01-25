@@ -12,7 +12,7 @@ export const postRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(z.object({ name: z.number() }))
+    .input(z.object({ name: z.number().min(1) }))
     .mutation(async ({ ctx, input }) => {
       return ctx.db.post.create({
         data: {
@@ -27,38 +27,57 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  getTriangle: publicProcedure.query(({ ctx }) => {
-    const data = ctx.db.post.findFirst({
+  
+
+  getTriangle: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
     });
-    let arr = []
-    let str = String(name)
+    const arr = []
+    const str = String(data?.name)
     let temp = `0`
     for (let i = 0; i < str.length; i++) {
       arr.push(`${str[i]}${temp}`)
       temp = temp + `0`
     }
     return {
+      data: str,
       result: arr
     }
   }),
-  
-  getGanjil: publicProcedure
-    .input(z.object({ name: z.number() }))
-    .query(({ input }) => {
-      console.log("getGanjil")
-      return {
-        name: input.name + 1000
-      }
-    }),
 
-  getGenap: publicProcedure
-    .input(z.object({ name: z.number() }))
-    .query(({ input }) => {
-      console.log("getGenap")
-      return {
-        name: input.name + 100000
+  getGanjil: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db.post.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
+    const maxNumber = Number(data?.name);
+    const arr = []
+    for (let i = 1; i <= maxNumber; i++) {
+      if (i % 2 !== 0) {
+        arr.push(i)
       }
-    })
+    }
+    return {
+      data: maxNumber,
+      result: arr
+    }
+  }),
+
+  getGenap: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db.post.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
+    const maxNumber = Number(data?.name);
+    const arr = []
+    for (let i = 1; i <= maxNumber; i++) {
+      if (i % 2 == 0) {
+        arr.push(i)
+      }
+    }
+    return {
+      data: maxNumber,
+      result: arr
+    }
+  }),
 
 });

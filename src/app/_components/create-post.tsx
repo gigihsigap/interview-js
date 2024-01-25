@@ -11,22 +11,22 @@ export function CreatePost() {
 
   const createSegitiga = api.post.create.useMutation({
     onSuccess: () => {
-      setName("");
       router.push('/segitiga');
+      router.refresh();
     },
   });
 
   const createGanjil = api.post.create.useMutation({
     onSuccess: () => {
-      setName("");
       router.push('/ganjil');
+      router.refresh();
     },
   });
 
   const createGenap = api.post.create.useMutation({
     onSuccess: () => {
-      setName("");
       router.push('/genap');
+      router.refresh();
     },
   });
 
@@ -34,10 +34,10 @@ export function CreatePost() {
     <form className="flex flex-col gap-2">
       <input
         type="text"
-        placeholder="Title"
-        value={Number(name)}
+        placeholder="Must be a number"
+        value={name}
         onChange={(e) => {
-          setName(Number(e.target.value)) 
+          setName(e.target.value) 
         }}
         className="w-full rounded-full px-4 py-2 text-black"
       />
