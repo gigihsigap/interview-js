@@ -12,11 +12,8 @@ export const postRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(z.object({ name: z.string().min(1) }))
+    .input(z.object({ name: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       return ctx.db.post.create({
         data: {
           name: input.name,
@@ -29,4 +26,39 @@ export const postRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
     });
   }),
+
+  getTriangle: publicProcedure.query(({ ctx }) => {
+    const data = ctx.db.post.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
+    let arr = []
+    let str = String(name)
+    let temp = `0`
+    for (let i = 0; i < str.length; i++) {
+      arr.push(`${str[i]}${temp}`)
+      temp = temp + `0`
+    }
+    return {
+      result: arr
+    }
+  }),
+  
+  getGanjil: publicProcedure
+    .input(z.object({ name: z.number() }))
+    .query(({ input }) => {
+      console.log("getGanjil")
+      return {
+        name: input.name + 1000
+      }
+    }),
+
+  getGenap: publicProcedure
+    .input(z.object({ name: z.number() }))
+    .query(({ input }) => {
+      console.log("getGenap")
+      return {
+        name: input.name + 100000
+      }
+    })
+
 });
