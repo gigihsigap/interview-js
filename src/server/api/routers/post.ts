@@ -27,8 +27,6 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  
-
   getTriangle: publicProcedure.query(async ({ ctx }) => {
     const data = await ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
@@ -36,9 +34,9 @@ export const postRouter = createTRPCRouter({
     const arr = []
     const str = String(data?.name)
     let temp = `0`
-    for (let i = 0; i < str.length; i++) {
-      arr.push(`${str[i]}${temp}`)
-      temp = temp + `0`
+    for (const char of str) {
+      arr.push(`${char}${temp}`)
+      temp += `0`
     }
     return {
       data: str,
@@ -52,10 +50,8 @@ export const postRouter = createTRPCRouter({
     });
     const maxNumber = Number(data?.name);
     const arr = []
-    for (let i = 1; i <= maxNumber; i++) {
-      if (i % 2 !== 0) {
-        arr.push(i)
-      }
+    for (let i = 1; i <= maxNumber; i += 2) {
+      arr.push(i)
     }
     return {
       data: maxNumber,
@@ -69,10 +65,8 @@ export const postRouter = createTRPCRouter({
     });
     const maxNumber = Number(data?.name);
     const arr = []
-    for (let i = 1; i <= maxNumber; i++) {
-      if (i % 2 == 0) {
-        arr.push(i)
-      }
+    for (let i = 2; i <= maxNumber; i += 2) {
+      arr.push(i)
     }
     return {
       data: maxNumber,
